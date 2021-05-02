@@ -60,7 +60,7 @@ export default function App() {
                 formData.append("Srt", e.target.files[0]);
                 axios
                   .post(
-                    "https://efxvr.sse.codesandbox.io/uploadSrt",
+                    "https://srt2webvtt.herokuapp.com/uploadSrt",
                     formData,
                     {
                       headers: {
