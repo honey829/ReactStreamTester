@@ -22,8 +22,8 @@ export default function App() {
       suburl: suburl
     };
 
-    setLastUrl((prevState) => {
-      return [...prevState, url];
+    setLastUrl(() => {
+      return url;
     });
   };
 
