@@ -6,7 +6,7 @@ export default function App() {
   const [vUrl, setVUrl] = useState("");
   const [file, setFile] = useState("");
 
-  const [lasturl, setLastUrl] = useState([]);
+  const [lasturl, setLastUrl] = useState("");
   let suburl;
   let binary = [];
 
@@ -25,6 +25,8 @@ export default function App() {
     setLastUrl(() => {
       return url;
     });
+
+    console.log(lasturl);
   };
 
   return (
@@ -60,7 +62,7 @@ export default function App() {
                 formData.append("Srt", e.target.files[0]);
                 axios
                   .post(
-                    "https://srt2webvtt.herokuapp.com/uploadSrt",
+                    "https://efxvr.sse.codesandbox.io/uploadSrt",
                     formData,
                     {
                       headers: {
@@ -90,31 +92,33 @@ export default function App() {
             </button>
           </div>
         </form>
-        {lasturl.map((el, index) => {
-          return (
-            <li key={index}>
-              <p
-                style={{
-                  cursor: "pointer",
-                  color: "blueviolet",
-                  textDecorationLine: "underline"
-                }}
-              >
-                {el.Vurl}
-              </p>
-              <video id="video" width="500" height="400" controls>
-                <source src={el.Vurl} />
-                <track
-                  src={el.suburl}
-                  default
-                  srcLang="en"
-                  kind="captions"
-                  label="English"
-                />
-              </video>
-            </li>
-          );
-        })}
+
+        <li>
+          <p
+            style={{
+              cursor: "pointer",
+              color: "blueviolet",
+              textDecorationLine: "underline"
+            }}
+          >
+            {lasturl.Vurl}
+          </p>
+          <video
+            src={lasturl.Vurl}
+            id="video"
+            width="500"
+            height="400"
+            controls
+          >
+            <track
+              src={lasturl.suburl}
+              default
+              srcLang="en"
+              kind="captions"
+              label="English"
+            />
+          </video>
+        </li>
       </div>
     </>
   );
