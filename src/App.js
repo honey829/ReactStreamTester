@@ -30,7 +30,7 @@ export default function App() {
     console.log(lasturl);
   };
 
-  setInterval(() => {
+  const test = () => {
     axios
       .get("https://srt2webvtt.herokuapp.com/")
       .then((res) => {
@@ -39,7 +39,9 @@ export default function App() {
       .catch((err) => {
         console.log("API is not working!!!");
       });
-  }, 15 * 1000);
+  };
+
+  test();
 
   return (
     <>
