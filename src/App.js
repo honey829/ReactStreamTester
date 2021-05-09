@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useState } from "react";
 import "./styles.css";
+import Video from "./Video";
 
 export default function App() {
   const [vUrl, setVUrl] = useState("");
@@ -28,6 +29,17 @@ export default function App() {
 
     console.log(lasturl);
   };
+
+  setInterval(() => {
+    axios
+      .get("https://srt2webvtt.herokuapp.com/")
+      .then((res) => {
+        console.log("everything is fine");
+      })
+      .catch((err) => {
+        console.log("API is not working!!!");
+      });
+  }, 15 * 1000);
 
   return (
     <>
@@ -103,21 +115,8 @@ export default function App() {
           >
             {lasturl.Vurl}
           </p>
-          <video
-            src={lasturl.Vurl}
-            id="video"
-            width="500"
-            height="400"
-            controls
-          >
-            <track
-              src={lasturl.suburl}
-              default
-              srcLang="en"
-              kind="captions"
-              label="English"
-            />
-          </video>
+
+          <Video url={lasturl.Vurl} suburl={lasturl.suburl} />
         </li>
       </div>
     </>
