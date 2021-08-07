@@ -1,19 +1,27 @@
-.App {
-  font-family: sans-serif;
-  text-align: center;
+#root {
+  padding: 0 10%;
+  margin: 5% 0;
 }
 
-input {
-  width: 30%;
+.VideoForm {
+  flex-direction: column;
+  display: flex;
+  align-items: stretch;
+  justify-content: flex-start;
 }
 
-li {
-  list-style: none;
+.light {
+  background-color: white;
+  color: black;
 }
 
-div {
-  text-align: center;
-  align-content: center;
-  align-items: center;
-  margin-top: 10px;
+.dark {
+  background-color: black;
+  color: white;
+}
+
+.inarow {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }
