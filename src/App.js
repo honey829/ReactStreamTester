@@ -140,7 +140,7 @@ export default function App(props) {
                 </Button>
               </Form.Item>
             </Form>
-            <Menu.Item>
+            <Menu.Item key={1}>
               <List
                 itemLayout="horizontal"
                 pagination={false}
