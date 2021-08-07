@@ -140,21 +140,6 @@ export default function App(props) {
                 </Button>
               </Form.Item>
             </Form>
-            <Menu.Item key={1}>
-              <List
-                itemLayout="horizontal"
-                pagination={false}
-                dataSource={[lasturl]}
-                renderItem={(item) => {
-                  return (
-                    <>
-                      <List.Item>{item.Vurl}</List.Item>
-                      <List.Item>{item.suburl}</List.Item>
-                    </>
-                  );
-                }}
-              />
-            </Menu.Item>
           </Menu>
         </Sider>
 
