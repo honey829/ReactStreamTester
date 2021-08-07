@@ -2,10 +2,8 @@
   "name": "react",
   "version": "1.0.0",
   "description": "Video Streaming App",
-  "keywords": [
-    "react",
-    "starter"
-  ],
+  "homepage": "https://github.com/honey829/ReactStreamTester",
+  "keywords": ["react", "starter"],
   "main": "src/index.js",
   "dependencies": {
     "antd": "4.16.10",
@@ -28,10 +26,5 @@
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build"
   },
-  "browserslist": [
-    ">0.2%",
-    "not dead",
-    "not ie <= 11",
-    "not op_mini all"
-  ]
+  "browserslist": [">0.2%", "not dead", "not ie <= 11", "not op_mini all"]
 }
