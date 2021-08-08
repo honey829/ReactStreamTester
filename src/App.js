@@ -10,12 +10,13 @@ import {
   Menu,
   message,
   notification,
+  PageHeader,
   Upload
 } from "antd";
 import "antd/dist/antd.css";
 
-import { UploadOutlined } from "@ant-design/icons";
-import Layout, { Content } from "antd/lib/layout/layout";
+import { PlaySquareOutlined, UploadOutlined } from "@ant-design/icons";
+import Layout, { Content, Header } from "antd/lib/layout/layout";
 import Sider from "antd/lib/layout/Sider";
 
 export default function App(props) {
@@ -27,8 +28,7 @@ export default function App(props) {
   let suburl;
   let binary = [];
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const handleSubmit = () => {
     binary.push(file);
     let blob = new Blob(binary, { type: "text/vtt" });
     suburl = URL.createObjectURL(blob);
@@ -102,40 +102,37 @@ export default function App(props) {
           style={{ minHeight: "75vh" }}
           className="site-layout-background"
         >
+          <PageHeader title="VidStream" subTitle={<PlaySquareOutlined />} className="site-page-header"></PageHeader>
           <Menu theme={theme} style={{ marginTop: "2%", marginBottom: "2%" }}>
-            <Form name="videoForm" className="VideoForm">
+            <Form onFinish={handleSubmit} className="VideoForm">
               <Form.Item
-                name="videoURL"
+                key="1"
                 rules={[{ required: true, message: "Please enter video url" }]}
               >
                 <Input
                   type="text"
                   placeholder="Enter video url"
                   onChange={(e) => {
-                    e.preventDefault();
                     setVUrl(e.target.value);
                   }}
                   value={vUrl}
                 />
               </Form.Item>
 
-              <Form.Item name="subtitle">
+              <Form.Item key="2" >
                 <Upload
-                  progress={(e) => {
-                    console.log(e);
-                  }}
                   customRequest={handleSubs}
                 >
                   <Button icon={<UploadOutlined />}>Select Subtitles</Button>
                 </Upload>
               </Form.Item>
-              <Form.Item>
-                <Button type="primary" htmlType="submit" onClick={handleSubmit}>
+              <Form.Item key="3">
+                <Button type="primary" htmlType="submit">
                   Play
                 </Button>
               </Form.Item>
-              <Form.Item>
-                <Button onClick={handleTheme} name="darkMode">
+              <Form.Item key="4">
+                <Button onClick={handleTheme}>
                   {btnName}
                 </Button>
               </Form.Item>
