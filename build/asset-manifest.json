@@ -1,0 +1,23 @@
+{
+  "files": {
+    "main.css": "/honey829/ReactStreamTester/static/css/main.3e83b4bf.chunk.css",
+    "main.js": "/honey829/ReactStreamTester/static/js/main.e40e1056.chunk.js",
+    "main.js.map": "/honey829/ReactStreamTester/static/js/main.e40e1056.chunk.js.map",
+    "runtime-main.js": "/honey829/ReactStreamTester/static/js/runtime-main.60c2b2e4.js",
+    "runtime-main.js.map": "/honey829/ReactStreamTester/static/js/runtime-main.60c2b2e4.js.map",
+    "static/css/2.a11a245f.chunk.css": "/honey829/ReactStreamTester/static/css/2.a11a245f.chunk.css",
+    "static/js/2.416d5dfb.chunk.js": "/honey829/ReactStreamTester/static/js/2.416d5dfb.chunk.js",
+    "static/js/2.416d5dfb.chunk.js.map": "/honey829/ReactStreamTester/static/js/2.416d5dfb.chunk.js.map",
+    "index.html": "/honey829/ReactStreamTester/index.html",
+    "static/css/2.a11a245f.chunk.css.map": "/honey829/ReactStreamTester/static/css/2.a11a245f.chunk.css.map",
+    "static/css/main.3e83b4bf.chunk.css.map": "/honey829/ReactStreamTester/static/css/main.3e83b4bf.chunk.css.map",
+    "static/js/2.416d5dfb.chunk.js.LICENSE.txt": "/honey829/ReactStreamTester/static/js/2.416d5dfb.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.60c2b2e4.js",
+    "static/css/2.a11a245f.chunk.css",
+    "static/js/2.416d5dfb.chunk.js",
+    "static/css/main.3e83b4bf.chunk.css",
+    "static/js/main.e40e1056.chunk.js"
+  ]
+}
