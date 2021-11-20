@@ -1,27 +1,112 @@
-#root {
-  padding: 0 10%;
-  margin: 5% 0;
-}
 
 .VideoForm {
   flex-direction: column;
   display: flex;
   align-items: stretch;
-  justify-content: flex-start;
-}
-
-.light {
-  background-color: white;
-  color: black;
-}
-
-.dark {
+  justify-content: flex-end;
   background-color: black;
-  color: white;
+  flex: 1 0 100vh;
+}
+.site-layout .ant-layout-content{
+  display: flex;
+  flex-direction: column;
+}
+.height100{
+  height: 100vh;
+}
+.seekIcons{
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+}
+.VideoPlayer{
+  height: 100%;
+  width: 100%;
+  position: relative;
+}
+.site-layout{
+  min-height: 100vh;
+  height: 100vh;
+  background-color: black;
 }
 
+.backBlack{
+  background-color: black !important;
+  color: white !important;
+  border: 0 !important;
+}
+
+.width50{
+  width: 50% !important;
+}
+
+.controls{
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  z-index: 1;
+}
+
+
+.controls .container{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  height: 100%;
+  align-items: center;
+}
+
+.play{
+  align-items: center;
+  color: white;
+  font-size: 8rem;
+}
+
+.width100{
+  width: 100%;
+}
+.width10{
+  width: 10%;
+}
+
+.back{
+  right: 2rem;
+  position: absolute;
+  top: 2rem;
+}
+
+.seek{
+  align-items: flex-end;
+}
+
+.white {
+  color:white !important;
+}
+.BGblack {
+  background-color: black;
+}
+.playIconSize{
+  font-size: x-large;
+}
 .inarow {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+}
+.btn{
+  cursor: pointer;
+}
+.colorWhite{
+  color: white !important;
+}
+
+.marginLeft{
+  margin-left: 1rem !important;
 }
