@@ -15,6 +15,8 @@ import "antd/dist/antd.css";
 import { PlayCircleOutlined, UploadOutlined, LinkOutlined } from "@ant-design/icons";
 import { Layout } from "antd";
 import { Content } from "antd/lib/layout/layout";
+import { useParams } from "react-router-dom";
+import * as Router from "react-router-dom";
 
 interface Urls {
   Vurl: string,
@@ -25,6 +27,8 @@ export default function App() {
   const query: URLSearchParams = new URLSearchParams(window.location.search);
   const [vUrl, setVUrl] = useState("");
   const [file, setFile] = useState("");
+  const location = Router.useLocation()
+  const Navigate = Router.useNavigate();
   const [urls, setUrls] = useState<Urls>({
     Vurl: "",
     subUrl: ""
@@ -36,10 +40,10 @@ export default function App() {
 
   const handleSubmit = (video?: string, subtitle?: string | null) => {
     let url: Urls
-    if (video) {
+    if (video && video.length > 0) {
       url = {
         Vurl: video,
-        subUrl: subtitle ? subtitle : ""
+        subUrl: (subtitle && subtitle !== null) ? subtitle : ""
       }
     } else {
       binary.push(file);
@@ -49,6 +53,10 @@ export default function App() {
         Vurl: vUrl,
         subUrl: suburl
       };
+      Navigate({
+        pathname: "/vidstream",
+        search: `?video=${url.Vurl}&subtitles=${url.subUrl}`
+      })
     }
     setUrls(() => {
       return url;
@@ -69,8 +77,8 @@ export default function App() {
 
   useEffect(() => {
     test();
-    const video = query.get("video");
-    const subtitle = query.get("subtitle");
+    const video = location.search.split("?video=")[1];
+    const subtitle = location.search.split("&subtitles=")[1];
     if (video && video !== null)
       handleSubmit(video, subtitle);
   }, []);

@@ -1,5 +1,5 @@
 import Icon, { CaretRightOutlined, CloseOutlined, EllipsisOutlined, ExpandOutlined, FileTextOutlined, FullscreenOutlined, Loading3QuartersOutlined, MenuOutlined, NotificationOutlined, PauseCircleTwoTone, PauseOutlined, PlayCircleFilled, PlayCircleOutlined, PlayCircleTwoTone, SoundOutlined } from "@ant-design/icons";
-import { Grid, Tooltip, Typography } from "antd";
+import { Button, Grid, Tooltip, Typography } from "antd";
 import React, { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 import ReactPlayer from "react-player";
 import { Slider } from "antd"
@@ -20,10 +20,10 @@ interface Played {
 const Video = (props: { loading?: boolean; url: string; suburl: string; handleBack: Dispatch<SetStateAction<boolean>> }) => {
   const lasturl = props.url;
   const suburl = props.suburl;
-  const [playing, setPlaying] = useState(false);
+  const [playing, setPlaying] = useState(true);
   const [mute, setMute] = useState(false);
   const [volume, setVolume] = useState(75);
-  const playerRef = useRef<any>(null);
+  const playerRef = useRef<ReactPlayer>(null);
   const [pip, setPIP] = useState(false);
   const playerWrapperRef = useRef<any>(null);
   const controlRef = useRef<any>(null);
@@ -36,9 +36,11 @@ const Video = (props: { loading?: boolean; url: string; suburl: string; handleBa
     setMute(!mute);
   }
   const handleRewind = () => {
+    playerRef.current &&
     playerRef.current.seekTo((played * 100 - 0.25) / 100);
   }
   const handleForward = () => {
+    playerRef.current &&
     playerRef.current.seekTo((played * 100 + 0.25) / 100);
   }
   const handlePIP = () => {
@@ -70,7 +72,7 @@ const Video = (props: { loading?: boolean; url: string; suburl: string; handleBa
   const [visibleDuration, setVisDuration] = useState<any>();
 
   useEffect(() => {
-    setVisDuration(<label className="white" >{`${(duration / 60).toPrecision(2)}:${(duration % 60).toPrecision(2)}`}</label>)
+    setVisDuration(<label className="white" >{new Date(duration * 1000).toISOString().substr(11, 8)}</label>)
   }, [duration])
 
   const handleVolumeUp = () => {
@@ -82,6 +84,7 @@ const Video = (props: { loading?: boolean; url: string; suburl: string; handleBa
   const handleBack = () => {
     props.handleBack(true);
   }
+
   return (
     <div tabIndex={0}
       onKeyDown={(e) => {
@@ -94,7 +97,7 @@ const Video = (props: { loading?: boolean; url: string; suburl: string; handleBa
         e.code === "KeyM" && handleMuteUnmute()
       }
       } ref={playerWrapperRef}
-      onDoubleClick={handleFullScreen} onClick={handlePlayPause}
+
       onMouseMove={handleMouseMove} className="VideoPlayer" >
       <ReactPlayer
         onDuration={(dura) => {
@@ -111,26 +114,23 @@ const Video = (props: { loading?: boolean; url: string; suburl: string; handleBa
         onProgress={handleProgress}
         config={{
           file: {
-            tracks: [
-              {
-                kind: "subtitles",
-                src: `${suburl}`,
-                default: true,
-                srcLang: "en",
-                label: "English"
-              }
-            ]
+            tracks: [{
+              kind: "captions",
+              label: "English",
+              src: suburl,
+              srcLang: "en",
+              default: true
+            }]
           }
         }}
       >
-        <track />
       </ReactPlayer>
 
       <div ref={controlRef} className="controls">
         <div className="back">
           <CloseOutlined onClick={handleBack} className="white playIconSize btn" />
         </div>
-        <div className="container">
+        <div onDoubleClick={handleFullScreen} onClick={handlePlayPause} className="container">
           <div className="play">
             {
               playing ? <PauseOutlined onClick={handlePlayPause} className="btn" /> : <CaretRightOutlined onClick={handlePlayPause} className="btn" />
@@ -174,7 +174,7 @@ const Video = (props: { loading?: boolean; url: string; suburl: string; handleBa
               tooltipVisible={false}
               value={played * 100}
               onChange={(value) => {
-                playerRef.current.seekTo(value / 100);
+                playerRef.current && playerRef.current.seekTo(value / 100);
               }}
               max={100}
               min={0}
@@ -191,7 +191,6 @@ const Video = (props: { loading?: boolean; url: string; suburl: string; handleBa
               }} />
             {visibleDuration}
             <Icon onClick={handlePIP} component={PIP} className="white playIconSize btn" />
-            <Icon component={Subtitle} className="white playIconSize btn" />
             <ExpandOutlined onClick={handleFullScreen} className="white btn" />
           </div>
         </div>
