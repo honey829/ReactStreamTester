@@ -22,7 +22,7 @@ const Video = (props: { loading?: boolean; url: string; suburl: string; handleBa
   const suburl = props.suburl;
   const [playing, setPlaying] = useState(true);
   const [mute, setMute] = useState(false);
-  const [volume, setVolume] = useState(75);
+  const [volume, setVolume] = useState(0.75);
   const playerRef = useRef<ReactPlayer>(null);
   const [pip, setPIP] = useState(false);
   const playerWrapperRef = useRef<any>(null);
@@ -76,10 +76,14 @@ const Video = (props: { loading?: boolean; url: string; suburl: string; handleBa
   }, [duration])
 
   const handleVolumeUp = () => {
-    setVolume(ps => ((ps * 100) + 80) / 100)
+    if (volume < 1)
+      setVolume(ps => ps + 0.1)
+    else setVolume(1)
   }
   const handleVolumeDown = () => {
-    setVolume(ps => ((ps * 100) - 80) / 100)
+    if (volume > 0)
+      setVolume(ps => ps - 0.1)
+    else setVolume(0)
   }
   const handleBack = () => {
     props.handleBack(true);
@@ -108,7 +112,7 @@ const Video = (props: { loading?: boolean; url: string; suburl: string; handleBa
         width="100%"
         playing={playing}
         muted={mute}
-        volume={volume / 100}
+        volume={volume}
         ref={playerRef}
         pip={pip}
         onProgress={handleProgress}
@@ -153,9 +157,9 @@ const Video = (props: { loading?: boolean; url: string; suburl: string; handleBa
 
             {
               !mute &&
-              <Slider onChange={(value) => {
+              <Slider tooltipVisible={false} onChange={(value) => {
                 setVolume(value);
-              }} max={100} min={0} value={volume} className="width10" trackStyle={{
+              }} max={1} step={0.1} min={0} value={volume} className="width10" trackStyle={{
                 backgroundColor: "red",
                 borderColor: "grey"
               }}

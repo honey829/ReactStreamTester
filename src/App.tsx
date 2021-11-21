@@ -54,7 +54,7 @@ export default function App() {
         subUrl: suburl
       };
       Navigate({
-        pathname: "/vidstream",
+        pathname: "/vidstream/",
         search: `?video=${url.Vurl}&subtitles=${url.subUrl}`
       })
     }
