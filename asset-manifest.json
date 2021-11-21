@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/vidstream/static/css/main.ffa4b5b6.chunk.css",
-    "main.js": "/vidstream/static/js/main.83b5b356.chunk.js",
-    "main.js.map": "/vidstream/static/js/main.83b5b356.chunk.js.map",
+    "main.js": "/vidstream/static/js/main.bd9796f0.chunk.js",
+    "main.js.map": "/vidstream/static/js/main.bd9796f0.chunk.js.map",
     "runtime-main.js": "/vidstream/static/js/runtime-main.3523aaae.js",
     "runtime-main.js.map": "/vidstream/static/js/runtime-main.3523aaae.js.map",
     "static/css/2.6ec576ca.chunk.css": "/vidstream/static/css/2.6ec576ca.chunk.css",
@@ -19,6 +19,6 @@
     "static/css/2.6ec576ca.chunk.css",
     "static/js/2.da003f83.chunk.js",
     "static/css/main.ffa4b5b6.chunk.css",
-    "static/js/main.83b5b356.chunk.js"
+    "static/js/main.bd9796f0.chunk.js"
   ]
 }
