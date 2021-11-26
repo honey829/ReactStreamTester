@@ -1,14 +1,9 @@
-import Icon, { CaretRightOutlined, CloseOutlined, EllipsisOutlined, ExpandOutlined, FileTextOutlined, FullscreenOutlined, Loading3QuartersOutlined, MenuOutlined, NotificationOutlined, PauseCircleTwoTone, PauseOutlined, PlayCircleFilled, PlayCircleOutlined, PlayCircleTwoTone, SoundOutlined } from "@ant-design/icons";
-import { Button, Grid, Tooltip, Typography } from "antd";
-import React, { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
+import Icon, { CaretRightOutlined, CloseOutlined, ExpandOutlined, NotificationOutlined, PauseOutlined, SoundOutlined } from "@ant-design/icons";
+import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 import ReactPlayer from "react-player";
 import { Slider } from "antd"
-import BaseReactPlayer from "react-player/base";
 import { ReactComponent as PIP } from "./PIP.svg";
-import { ReactComponent as Subtitle } from "./Subtitle.svg";
 import screenfull from "screenfull";
-import { JsxElement } from "typescript";
-import Title from "antd/lib/typography/Title";
 
 interface Played {
   played: number,
@@ -72,6 +67,7 @@ const Video = (props: { loading?: boolean; url: string; suburl: string; handleBa
   const [visibleDuration, setVisDuration] = useState<any>();
 
   useEffect(() => {
+    setPlaying(true);
     setVisDuration(<label className="white" >{new Date(duration * 1000).toISOString().substr(11, 8)}</label>)
   }, [duration])
 
@@ -157,7 +153,7 @@ const Video = (props: { loading?: boolean; url: string; suburl: string; handleBa
 
             {
               !mute &&
-              <Slider tooltipVisible={false} onChange={(value) => {
+              <Slider tooltipVisible={false} onChange={(value: number) => {
                 setVolume(value);
               }} max={1} step={0.1} min={0} value={volume} className="width10" trackStyle={{
                 backgroundColor: "red",
@@ -177,7 +173,7 @@ const Video = (props: { loading?: boolean; url: string; suburl: string; handleBa
               autoFocus
               tooltipVisible={false}
               value={played * 100}
-              onChange={(value) => {
+              onChange={(value: number) => {
                 playerRef.current && playerRef.current.seekTo(value / 100);
               }}
               max={100}

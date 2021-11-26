@@ -15,7 +15,6 @@ import "antd/dist/antd.css";
 import { PlayCircleOutlined, UploadOutlined, LinkOutlined } from "@ant-design/icons";
 import { Layout } from "antd";
 import { Content } from "antd/lib/layout/layout";
-import { useParams } from "react-router-dom";
 import * as Router from "react-router-dom";
 
 interface Urls {
@@ -24,7 +23,6 @@ interface Urls {
 }
 
 export default function App() {
-  const query: URLSearchParams = new URLSearchParams(window.location.search);
   const [vUrl, setVUrl] = useState("");
   const [file, setFile] = useState("");
   const location = Router.useLocation()
@@ -67,10 +65,10 @@ export default function App() {
   const test = () => {
     axios
       .get("https://srt2webvtt.herokuapp.com/")
-      .then((res) => {
+      .then(() => {
         console.log("everything is fine");
       })
-      .catch((err) => {
+      .catch(() => {
         console.log("API is not working!!!");
       });
   };
@@ -97,7 +95,7 @@ export default function App() {
                 className="backBlack width50"
                 type="text"
                 placeholder={"Enter video url"}
-                onChange={(e) => {
+                onChange={(e: any) => {
                   setVUrl(e.target.value);
                 }}
                 value={vUrl}
@@ -105,7 +103,7 @@ export default function App() {
             </Form.Item>
 
             <Form.Item key="2">
-              <Upload className="backBlack" customRequest={async ({ file, onSuccess }) => {
+              <Upload className="backBlack" customRequest={async ({ file, onSuccess }: any) => {
                 const formData = new FormData();
                 formData.append("Srt", file);
                 const res = await axios.post(
