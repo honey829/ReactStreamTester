@@ -1,7 +1,7 @@
-import Icon, { CaretRightOutlined, CloseOutlined, ExpandOutlined, NotificationOutlined, PauseOutlined, SoundOutlined } from "@ant-design/icons";
+import Icon, { CaretRightOutlined, CloseOutlined, ExpandOutlined, LoadingOutlined, NotificationOutlined, PauseOutlined, SoundOutlined } from "@ant-design/icons";
 import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 import ReactPlayer from "react-player";
-import { Slider } from "antd"
+import { Modal, Slider } from "antd"
 import { ReactComponent as PIP } from "./PIP.svg";
 import screenfull from "screenfull";
 
@@ -11,8 +11,13 @@ interface Played {
   loaded: number,
   loadedSeconds: number,
 }
-
-const Video = (props: { loading?: boolean; url: string; suburl: string; handleBack: Dispatch<SetStateAction<boolean>> }) => {
+interface Props {
+  loading?: boolean;
+  url?: string;
+  suburl?: string;
+  handleBack: Dispatch<SetStateAction<boolean>>
+}
+const Video = (props: Props) => {
   const lasturl = props.url;
   const suburl = props.suburl;
   const [playing, setPlaying] = useState(true);
@@ -23,20 +28,29 @@ const Video = (props: { loading?: boolean; url: string; suburl: string; handleBa
   const playerWrapperRef = useRef<any>(null);
   const controlRef = useRef<any>(null);
   const [count, setCount] = useState(0);
+  const [buffered, setBuffered] = useState(0);
 
   const handlePlayPause = () => {
     setPlaying(!playing);
+    setCount(10);
   }
   const handleMuteUnmute = () => {
     setMute(!mute);
+    setCount(10);
   }
   const handleRewind = () => {
-    playerRef.current &&
-    playerRef.current.seekTo((played * 100 - 0.25) / 100);
+    if (playerRef.current) {
+      handlePlayPause();
+      playerRef.current.seekTo(played - 5);
+      setCount(10);
+    }
   }
   const handleForward = () => {
-    playerRef.current &&
-    playerRef.current.seekTo((played * 100 + 0.25) / 100);
+    if (playerRef.current) {
+      handlePlayPause();
+      playerRef.current.seekTo(played + 5);
+      setCount(10);
+    }
   }
   const handlePIP = () => {
     setPIP(!pip);
@@ -45,30 +59,31 @@ const Video = (props: { loading?: boolean; url: string; suburl: string; handleBa
 
   const handleFullScreen = () => {
     screenfull.toggle(playerWrapperRef.current);
+    setCount(10);
   }
 
   const handleProgress = (progressObject: Played) => {
-    if (count > 3) {
-      controlRef.current.style.visibility = "hidden";
-      setCount(0);
-    }
-    if (controlRef.current.style.visibility === "visible") {
-      setCount(ps => ps + 1);
-    }
-    setPlayed(progressObject.played);
+    setPlayed(progressObject.playedSeconds);
+    setBuffered(progressObject.loadedSeconds)
   }
 
   const handleMouseMove = () => {
     controlRef.current.style.visibility = "visible";
-    setCount(0);
+    setCount(10);
   }
-
   const [duration, setDuration] = useState(0);
-  const [visibleDuration, setVisDuration] = useState<any>();
+  useEffect(() => {
+    if (count > 0) {
+      setTimeout(() => {
+        setCount(count - 1)
+      }, 1000);
+    } else if (count === 0) {
+      controlRef.current.style.visibility = "hidden";
+    }
+  }, [count])
 
   useEffect(() => {
     setPlaying(true);
-    setVisDuration(<label className="white" >{new Date(duration * 1000).toISOString().substr(11, 8)}</label>)
   }, [duration])
 
   const handleVolumeUp = () => {
@@ -85,6 +100,12 @@ const Video = (props: { loading?: boolean; url: string; suburl: string; handleBa
     props.handleBack(true);
   }
 
+  const [buffer, setBuffer] = useState(true);
+
+  const toggleBuffer = (val: boolean) => {
+    setBuffer(val)
+  }
+
   return (
     <div tabIndex={0}
       onKeyDown={(e) => {
@@ -97,29 +118,48 @@ const Video = (props: { loading?: boolean; url: string; suburl: string; handleBa
         e.code === "KeyM" && handleMuteUnmute()
       }
       } ref={playerWrapperRef}
-
-      onMouseMove={handleMouseMove} className="VideoPlayer" >
+      onMouseMove={handleMouseMove}
+      className="VideoPlayer"
+      onClick={handlePlayPause}
+      onDoubleClick={handleFullScreen}
+    >
       <ReactPlayer
         onDuration={(dura) => {
           setDuration(dura)
         }}
+        onBuffer={() => toggleBuffer(true)}
+        onBufferEnd={() => toggleBuffer(false)}
+        progressInterval={1}
         url={lasturl}
         height="100%"
         width="100%"
         playing={playing}
+        onReady={() => {
+          setBuffer(false)
+          handlePlayPause()
+        }}
         muted={mute}
-        volume={volume}
+        volume={volume > 1 ? 1 : volume < 0 ? 0 : 0.5}
         ref={playerRef}
         pip={pip}
         onProgress={handleProgress}
+        onError={(error, data, hlsinst, hlsglobal) => {
+          if (error) {
+            Modal.error({
+              content: "Error while playing video, Please try again later.",
+              okText: "Home",
+              onOk: handleBack
+            })
+          }
+        }}
         config={{
           file: {
             tracks: [{
               kind: "captions",
               label: "English",
-              src: suburl,
+              src: suburl ? suburl : "",
               srcLang: "en",
-              default: true
+              default: true,
             }]
           }
         }}
@@ -133,11 +173,13 @@ const Video = (props: { loading?: boolean; url: string; suburl: string; handleBa
         <div onDoubleClick={handleFullScreen} onClick={handlePlayPause} className="container">
           <div className="play">
             {
-              playing ? <PauseOutlined onClick={handlePlayPause} className="btn" /> : <CaretRightOutlined onClick={handlePlayPause} className="btn" />
+              buffer ? <LoadingOutlined style={{ fontSize: 24, color: "red" }} spin /> :
+                playing ? <PauseOutlined onClick={handlePlayPause} className="btn" />
+                  : <CaretRightOutlined onClick={handlePlayPause} className="btn" />
             }
           </div>
         </div>
-        <div className="seek">
+        <div className="seek margin1-5">
           <div className="seekIcons">
             {
               playing ?
@@ -167,18 +209,18 @@ const Video = (props: { loading?: boolean; url: string; suburl: string; handleBa
                   marginTop: "-2.5px"
                 }} />
             }
-
             <Slider
-              step={0.01}
               autoFocus
               tooltipVisible={false}
-              value={played * 100}
+              value={played}
               onChange={(value: number) => {
-                playerRef.current && playerRef.current.seekTo(value / 100);
+                playerRef.current && playerRef.current.seekTo(value);
               }}
-              max={100}
+              max={duration}
               min={0}
-              className="width100" trackStyle={{
+              tipFormatter={(value) => new Date(played * 1000).toISOString().substr(11, 8)}
+              className="width100"
+              trackStyle={{
                 backgroundColor: "red",
                 borderColor: "grey"
               }}
@@ -189,7 +231,7 @@ const Video = (props: { loading?: boolean; url: string; suburl: string; handleBa
                 height: "10px",
                 marginTop: "-2.5px"
               }} />
-            {visibleDuration}
+            <div className="white width10" >{new Date(played * 1000).toISOString().substr(11, 8)} / {new Date(duration * 1000).toISOString().substr(11, 8)}</div>
             <Icon onClick={handlePIP} component={PIP} className="white playIconSize btn" />
             <ExpandOutlined onClick={handleFullScreen} className="white btn" />
           </div>

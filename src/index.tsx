@@ -6,11 +6,9 @@ const rootElement = document.getElementById("root");
 
 const ThemeProvider = () => {
   return (
-    <div className="height100 BGblack" >
-      <BrowserRouter>
+    <BrowserRouter>
       <App />
-      </BrowserRouter>
-    </div>
+    </BrowserRouter>
   );
 };
 

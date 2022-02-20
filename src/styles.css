@@ -4,12 +4,61 @@
   display: flex;
   align-items: stretch;
   justify-content: flex-end;
-  background-color: black;
   flex: 1 0 100vh;
+  background-color: black;
+  padding-bottom: 3rem!important;
 }
+.VideoForm .ant-form-item{
+  margin-left: 1.5rem !important;
+  margin-right: 1.5rem !important;
+}
+
+.ant-upload-list-item:hover .ant-upload-list-item-info{
+  background: black !important;
+  background-color: black !important;
+}
+.ant-upload-list-item {
+  margin-left: 1.5rem;
+}
+.ant-upload-list-item-name{
+  background: black !important;
+  color: white !important;
+}
+
 .site-layout .ant-layout-content{
   display: flex;
   flex-direction: column;
+  background-color: black;
+}
+
+.ant-upload-list-item:hover{
+  background: black !important;
+  color: white;
+}
+
+.ant-upload-list-text-container{
+  width: 25vw;
+}
+
+svg{
+  color: white !important;
+  fill: white !important;
+}
+
+.margin1-5{
+  margin: 1.5rem;
+}
+input{
+  background: black !important;
+  color: white !important;
+}
+.ant-list-item,.ant-modal-title,.ant-modal-header,.ant-modal-content,.ant-modal-confirm-content{
+  background: black !important;
+  color: white !important;
+}
+button{
+  background: black !important;
+  border: 0;
 }
 .height100{
   height: 100vh;
@@ -24,11 +73,8 @@
   height: 100%;
   width: 100%;
   position: relative;
-}
-.site-layout{
-  min-height: 100vh;
   height: 100vh;
-  background-color: black;
+  background: black;
 }
 
 .backBlack{
