@@ -22,7 +22,7 @@ const Video = (props: Props) => {
   const suburl = props.suburl;
   const [playing, setPlaying] = useState(true);
   const [mute, setMute] = useState(false);
-  const [volume, setVolume] = useState(0.75);
+  const [volume, setVolume] = useState(0.70);
   const playerRef = useRef<ReactPlayer>(null);
   const [pip, setPIP] = useState(false);
   const playerWrapperRef = useRef<any>(null);
@@ -87,14 +87,10 @@ const Video = (props: Props) => {
   }, [duration])
 
   const handleVolumeUp = () => {
-    if (volume < 1)
-      setVolume(ps => ps + 0.1)
-    else setVolume(1)
+    setVolume(ps => ps + 0.1)
   }
   const handleVolumeDown = () => {
-    if (volume > 0)
-      setVolume(ps => ps - 0.1)
-    else setVolume(0)
+    setVolume(ps => ps - 0.1)
   }
   const handleBack = () => {
     props.handleBack(true);
@@ -111,8 +107,8 @@ const Video = (props: Props) => {
       onKeyDown={(e) => {
         e.code === "ArrowLeft" && handleRewind()
         e.code === "ArrowRight" && handleForward()
-        e.code === "ArrowUp" && handleVolumeUp()
-        e.code === "ArrowDown" && handleVolumeDown()
+        e.code === "ArrowUp" && volume < 1 && handleVolumeUp()
+        e.code === "ArrowDown" && volume > 0 && handleVolumeDown()
         e.code === "Space" && handlePlayPause()
         e.code === "KeyF" && handleFullScreen()
         e.code === "KeyM" && handleMuteUnmute()
@@ -139,7 +135,7 @@ const Video = (props: Props) => {
           handlePlayPause()
         }}
         muted={mute}
-        volume={volume > 1 ? 1 : volume < 0 ? 0 : 0.5}
+        volume={volume}
         ref={playerRef}
         pip={pip}
         onProgress={handleProgress}
