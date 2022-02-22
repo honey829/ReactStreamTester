@@ -87,10 +87,26 @@ const Video = (props: Props) => {
   }, [duration])
 
   const handleVolumeUp = () => {
-    setVolume(ps => ps + 0.1)
+    setVolume(ps => {
+      if ((ps + 0.1) === 1) {
+        return 1;
+      } else if ((ps + 0.1) > 1) {
+        return 1;
+      } else {
+        return ps + 0.1;
+      }
+    })
   }
   const handleVolumeDown = () => {
-    setVolume(ps => ps - 0.1)
+    setVolume(ps => {
+      if ((ps - 0.1) === 0) {
+        return 0;
+      } else if ((ps - 0.1) < 0) {
+        return 0;
+      } else {
+        return ps - 0.1;
+      }
+    })
   }
   const handleBack = () => {
     props.handleBack(true);
@@ -169,7 +185,7 @@ const Video = (props: Props) => {
         <div onDoubleClick={handleFullScreen} onClick={handlePlayPause} className="container">
           <div className="play">
             {
-              buffer ? <LoadingOutlined style={{ fontSize: 24, color: "red" }} spin /> :
+              buffer ? <LoadingOutlined style={{ fontSize: 24, color: "red" }} spin color="red" twoToneColor={["red", "red"]} /> :
                 playing ? <PauseOutlined onClick={handlePlayPause} className="btn" />
                   : <CaretRightOutlined onClick={handlePlayPause} className="btn" />
             }
