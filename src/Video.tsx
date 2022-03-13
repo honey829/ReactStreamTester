@@ -73,6 +73,7 @@ const Video = (props: Props) => {
   }
   const [duration, setDuration] = useState(0);
   useEffect(() => {
+    controlRef.current.style.visibility = "visible";
     if (count > 0) {
       setTimeout(() => {
         setCount(count - 1)

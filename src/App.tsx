@@ -19,7 +19,7 @@ import { PlayCircleOutlined, UploadOutlined, LinkOutlined } from "@ant-design/ic
 import { Layout } from "antd";
 import { Content } from "antd/lib/layout/layout";
 import * as Router from "react-router-dom";
-import { ProductionAPIUrl, SearchAPIURLDev, SelectYIFYSubsDEV, uploadSrtDev } from "./config";
+import { SearchAPIURLDev, SelectYIFYSubsDEV, uploadSrtDev } from "./config";
 
 interface Urls {
   Vurl?: string,
@@ -48,6 +48,7 @@ export default function App() {
         pathname: "/vidstream/",
         search: `?video=${url.Vurl}`
       })
+      setVUrl(video)
     } else {
       if (file) {
         binary.push(file);
@@ -74,21 +75,11 @@ export default function App() {
     setDisable(false);
   };
 
-  const test = () => {
-    axios
-      .get("https://srt2webvtt.herokuapp.com/")
-      .then(() => {
-        console.log("everything is fine");
-      })
-      .catch(() => {
-        console.log("API is not working!!!");
-      });
-  };
-
   useEffect(() => {
-    test();
     const video = location.search.split("?video=")[1];
-    const subtitle = location.search.split("&subtitles=")[1];
+    let subtitle;
+    if (location.search.includes("&subtitles="))
+      subtitle = location.search.split("&subtitles=")[1];
     if (video && video !== null)
       handleSubmit(video, subtitle);
   }, []);
@@ -179,13 +170,6 @@ export default function App() {
                 value={vUrl}
               ></Input>
             </Form.Item>
-            {/* <Form.Item key="2">
-              <Input.Search
-                className="backBlack width50"
-                placeholder={"Search Subtitles"}
-                onSearch={handleSubsSearch}
-              />
-            </Form.Item> */}
             <Form.Item key="2">
               <Upload multiple={false} className="backBlack" customRequest={uploadSRT}>
                 <Button className="backBlack" icon={<UploadOutlined />}>Select Subtitles</Button>
@@ -225,9 +209,7 @@ export default function App() {
                 </List.Item>
               }}
             >
-
             </List>
-
           </Modal>
         </Content>
       </Layout>
