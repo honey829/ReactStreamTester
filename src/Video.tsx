@@ -69,20 +69,12 @@ const Video = (props: Props) => {
 
   const handleMouseMove = () => {
     controlRef.current.style.visibility = "visible";
-    setCount(10);
+    setInterval(()=>{
+      controlRef.current.style.visibility = "hidden";
+    },10000)
   }
   const [duration, setDuration] = useState(0);
-  useEffect(() => {
-    controlRef.current.style.visibility = "visible";
-    if (count > 0) {
-      setTimeout(() => {
-        setCount(count - 1)
-      }, 1000);
-    } else if (count === 0) {
-      controlRef.current.style.visibility = "hidden";
-    }
-  }, [count])
-
+  
   useEffect(() => {
     setPlaying(true);
   }, [duration])
@@ -133,8 +125,6 @@ const Video = (props: Props) => {
       } ref={playerWrapperRef}
       onMouseMove={handleMouseMove}
       className="VideoPlayer"
-      onClick={handlePlayPause}
-      onDoubleClick={handleFullScreen}
     >
       <ReactPlayer
         onDuration={(dura) => {
