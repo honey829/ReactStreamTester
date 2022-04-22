@@ -32,24 +32,26 @@ const Video = (props: Props) => {
 
   const handlePlayPause = () => {
     setPlaying(!playing);
-    setCount(10);
+    if (playerRef.current)
+      setCount(playerRef.current?.getCurrentTime() + 5)
   }
   const handleMuteUnmute = () => {
     setMute(!mute);
-    setCount(10);
+    if (playerRef.current)
+      setCount(playerRef.current?.getCurrentTime() + 5)
   }
   const handleRewind = () => {
     if (playerRef.current) {
-      handlePlayPause();
       playerRef.current.seekTo(played - 5);
-      setCount(10);
+      if (playerRef.current)
+        setCount(playerRef.current?.getCurrentTime() + 5)
     }
   }
   const handleForward = () => {
     if (playerRef.current) {
-      handlePlayPause();
       playerRef.current.seekTo(played + 5);
-      setCount(10);
+      if (playerRef.current)
+        setCount(playerRef.current?.getCurrentTime() + 5)
     }
   }
   const handlePIP = () => {
@@ -59,7 +61,8 @@ const Video = (props: Props) => {
 
   const handleFullScreen = () => {
     screenfull.toggle(playerWrapperRef.current);
-    setCount(10);
+    if (playerRef.current)
+      setCount(playerRef.current?.getCurrentTime() + 5)
   }
 
   const handleProgress = (progressObject: Played) => {
@@ -69,15 +72,20 @@ const Video = (props: Props) => {
 
   const handleMouseMove = () => {
     controlRef.current.style.visibility = "visible";
-    setInterval(()=>{
-      controlRef.current.style.visibility = "hidden";
-    },10000)
+    if (playerRef.current)
+      setCount(playerRef.current?.getCurrentTime() + 5)
   }
   const [duration, setDuration] = useState(0);
   
   useEffect(() => {
     setPlaying(true);
   }, [duration])
+
+  useEffect(() => {
+    if (count < played) {
+      controlRef.current.style.visibility = "hidden";
+    }
+  }, [count, played])
 
   const handleVolumeUp = () => {
     setVolume(ps => {
@@ -136,10 +144,10 @@ const Video = (props: Props) => {
         url={lasturl}
         height="100%"
         width="100%"
+        style={{ overflow: "hidden" }}
         playing={playing}
         onReady={() => {
           setBuffer(false)
-          handlePlayPause()
         }}
         muted={mute}
         volume={volume}
