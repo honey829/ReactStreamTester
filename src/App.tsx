@@ -19,7 +19,7 @@ import { PlayCircleOutlined, UploadOutlined, LinkOutlined } from "@ant-design/ic
 import { Layout } from "antd";
 import { Content } from "antd/lib/layout/layout";
 import * as Router from "react-router-dom";
-import { SearchAPIURLDev, SelectYIFYSubsDEV, uploadSrtDev } from "./config";
+import { SearchAPIURLDev, SelectYIFYSubsDEV, uploadSrtDev, uploadSrtProd } from "./config";
 
 interface Urls {
   Vurl?: string,
@@ -92,7 +92,7 @@ export default function App() {
       const formData = new FormData();
       formData.append("Srt", file);
       const res = await axios.post(
-        uploadSrtDev,
+        uploadSrtProd,
         formData,
         { headers: { "content-type": "multipart/form-data" } }
       );
@@ -181,7 +181,7 @@ export default function App() {
               </Button>
             </Form.Item>
           </Form>
-          <Modal width="75%" title="Search Subtitles" footer={false} onCancel={() => {
+          {/* <Modal width="75%" title="Search Subtitles" footer={false} onCancel={() => {
             setSubtitleSearchList([])
           }} visible={subtitleSearchList?.length > 0} >
             <Input.Search
@@ -190,7 +190,6 @@ export default function App() {
               onSearch={handleSubsSearch}
               width="100%"
             />
-
             <List
               itemLayout="vertical"
               size="large"
@@ -210,7 +209,7 @@ export default function App() {
               }}
             >
             </List>
-          </Modal>
+          </Modal> */}
         </Content>
       </Layout>
       :
