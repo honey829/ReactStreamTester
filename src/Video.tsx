@@ -20,7 +20,7 @@ interface Props {
 const Video = (props: Props) => {
   const lasturl = props.url;
   const suburl = props.suburl;
-  const [playing, setPlaying] = useState(true);
+  const [playing, setPlaying] = useState(false);
   const [mute, setMute] = useState(false);
   const [volume, setVolume] = useState(0.70);
   const playerRef = useRef<ReactPlayer>(null);
@@ -118,7 +118,7 @@ const Video = (props: Props) => {
   }
 
   useEffect(() => {
-    setPlaying(false);
+    setPlaying(true);
   }, [buffer])
 
   return (
