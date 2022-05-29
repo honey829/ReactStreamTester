@@ -155,13 +155,7 @@ const Video = (props: Props) => {
         pip={pip}
         onProgress={handleProgress}
         onError={(error, data, hlsinst, hlsglobal) => {
-          if (error) {
-            Modal.error({
-              content: "Error while playing video, Please try again later.",
-              okText: "Home",
-              onOk: handleBack
-            })
-          }
+          console.error(error)
         }}
         config={{
           file: {
