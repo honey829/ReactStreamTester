@@ -1,14 +1,14 @@
 {
   "files": {
     "main.css": "/vidstream/static/css/main.7355e136.css",
-    "main.js": "/vidstream/static/js/main.f206fa8a.js",
+    "main.js": "/vidstream/static/js/main.c446d94d.js",
     "index.html": "/vidstream/index.html",
     "static/media/PIP.svg": "/vidstream/static/media/PIP.ee1a5bcf693a696a7f370788b6e9af56.svg",
     "main.7355e136.css.map": "/vidstream/static/css/main.7355e136.css.map",
-    "main.f206fa8a.js.map": "/vidstream/static/js/main.f206fa8a.js.map"
+    "main.c446d94d.js.map": "/vidstream/static/js/main.c446d94d.js.map"
   },
   "entrypoints": [
     "static/css/main.7355e136.css",
-    "static/js/main.f206fa8a.js"
+    "static/js/main.c446d94d.js"
   ]
 }
