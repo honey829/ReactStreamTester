@@ -156,7 +156,7 @@ const Video = (props: Props) => {
         onProgress={handleProgress}
         onError={(error, data, hlsinst, hlsglobal) => {
           if (error) {
-            handlePlayPause();
+            setPlaying(false)
           }
         }}
         config={{
