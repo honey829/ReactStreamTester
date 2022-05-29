@@ -155,7 +155,7 @@ const Video = (props: Props) => {
         pip={pip}
         onProgress={handleProgress}
         onError={(error, data, hlsinst, hlsglobal) => {
-          if (error && error.includes("play() failed")) {
+          if (error) {
             handlePlayPause();
           }
         }}
