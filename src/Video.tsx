@@ -77,9 +77,7 @@ const Video = (props: Props) => {
   }
   const [duration, setDuration] = useState(0);
   
-  useEffect(() => {
-    setPlaying(true);
-  }, [duration])
+
 
   useEffect(() => {
     if (count < played) {
@@ -118,6 +116,10 @@ const Video = (props: Props) => {
   const toggleBuffer = (val: boolean) => {
     setBuffer(val)
   }
+
+  useEffect(() => {
+    setPlaying(false);
+  }, [buffer])
 
   return (
     <div tabIndex={0}
